@@ -74,15 +74,15 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --yes pulseaudio-utils
 
 # Set up the user
-RUN export UNAME=$rtx UID=1000 GID=1000 && \
-    mkdir -p "/home/${rtx}" && \
-    echo "${rtx}:x:${UID}:${GID}:${rtx} rtx,,,:/home/${rtx}:/bin/bash" >> /etc/passwd && \
-    echo "${rtx}:x:${UID}:" >> /etc/group && \
+RUN export rtx=$UNAME UID=1000 GID=1000 && \
+    mkdir -p "/home/${UNAME}" && \
+    echo "${UNAME}:x:${UID}:${GID}:${UNAME} User,,,:/home/${UNAME}:/bin/bash" >> /etc/passwd && \
+    echo "${UNAME}:x:${UID}:" >> /etc/group && \
     mkdir -p /etc/sudoers.d && \
-    echo "${rtx} ALL=(ALL) 12345678: ALL" > /etc/sudoers.d/${rtx} && \
-    chmod 0777 /etc/sudoers.d/${rtx} && \
-    chown ${UID}:${GID} -R /home/${rtx} && \
-    gpasswd -a ${rtx} audio
+    echo "${UNAME} ALL=(ALL) 12345678: ALL" > /etc/sudoers.d/${UNAME} && \
+    chmod 0777 /etc/sudoers.d/${UNAME} && \
+    chown ${UID}:${GID} -R /home/${UNAME} && \
+    gpasswd -a ${UNAME} audio
 
 RUN echo xfce4-session >~/.xsession
 RUN echo "exec /etc/X11/Xsession /usr/bin/xfce4-session" 
